@@ -1,0 +1,21 @@
+$kind: http-request
+name: 删除预约
+url: "{{base_url}}/booking/{{booking_id}}"
+method: DELETE
+headers:
+  Cookie: token={{token}}
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"删除成功\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      \r
+
+      \    pm.expect(pm.response.json().message)\r
+
+      \        .to.eql(\"Booking deleted\");\r
+
+      });"
+    language: text/javascript
+order: 1772356946250

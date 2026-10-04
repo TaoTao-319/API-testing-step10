@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{base_url}}/booking"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"返回预约编号数组\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      \r
+
+      \    const data = pm.response.json();\r
+
+      \    pm.expect(data).to.be.an(\"array\");\r
+
+      \r
+
+      \    data.forEach(function (item) {\r
+
+      \        pm.expect(item.bookingid).to.be.a(\"number\");\r
+
+      \    });\r
+
+      });"
+    language: text/javascript
+order: 3000

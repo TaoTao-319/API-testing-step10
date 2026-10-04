@@ -1,0 +1,12 @@
+name: 本地预约服务
+values:
+  - key: base_url
+    value: 'http://127.0.0.1:8000'
+  - key: username
+    value: admin
+  - key: password
+    value: password123
+  - key: token
+    value: ''
+  - key: booking_id
+    value: ''

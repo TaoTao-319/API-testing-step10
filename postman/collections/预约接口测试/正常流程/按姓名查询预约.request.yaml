@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{base_url}}/booking?firstname=Alex&lastname=Learner"
+method: GET
+queryParams:
+  firstname: Alex
+  lastname: Learner
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"姓名筛选结果包含当前预约\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      \r
+
+      \    const data = pm.response.json();\r
+
+      \    pm.expect(data).to.be.an(\"array\");\r
+
+      \r
+
+      \    const ids = data.map(function (item) {\r
+
+      \        return item.bookingid;\r
+
+      \    });\r
+
+      \r
+
+      \    pm.expect(ids).to.include(\r
+
+      \        Number(pm.environment.get(\"booking_id\"))\r
+
+      \    );\r
+
+      });"
+    language: text/javascript
+order: 5000

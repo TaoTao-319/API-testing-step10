@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base_url}}/booking/{{booking_id}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"无有效凭证时拒绝删除\", function () {\r
+
+      \    pm.response.to.have.status(403);\r
+
+      \r
+
+      \    const data = pm.response.json();\r
+
+      \    pm.expect(data.error)\r
+
+      \        .to.eql(\"A valid token cookie is required\");\r
+
+      });"
+    language: text/javascript
+order: 9000

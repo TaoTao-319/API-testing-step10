@@ -1,0 +1,44 @@
+$kind: http-request
+url: "{{base_url}}/booking/{{booking_id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Cookie: token=invalid_token
+body:
+  type: json
+  content: "{\r
+
+    \  \"firstname\": \"Alex\",\r
+
+    \  \"lastname\": \"Learner\",\r
+
+    \  \"totalprice\": 300,\r
+
+    \  \"depositpaid\": true,\r
+
+    \  \"bookingdates\": {\r
+
+    \    \"checkin\": \"2026-11-01\",\r
+
+    \    \"checkout\": \"2026-11-03\"\r
+
+    \  },\r
+
+    \  \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"无有效凭证时拒绝操作\", function () {\r
+
+      \    pm.response.to.have.status(403);\r
+
+      \r
+
+      \    pm.expect(pm.response.json().error)\r
+
+      \        .to.eql(\"A valid token cookie is required\");\r
+
+      });"
+    language: text/javascript
+order: 7000

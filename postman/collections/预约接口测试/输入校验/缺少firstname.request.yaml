@@ -1,0 +1,49 @@
+$kind: http-request
+url: "{{base_url}}/booking"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: "{\r
+
+    \  \"lastname\": \"Learner\",\r
+
+    \  \"totalprice\": 200,\r
+
+    \  \"depositpaid\": true,\r
+
+    \  \"bookingdates\": {\r
+
+    \    \"checkin\": \"2026-11-01\",\r
+
+    \    \"checkout\": \"2026-11-03\"\r
+
+    \  },\r
+
+    \  \"additionalneeds\": \"Breakfast\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"错误输入返回400\", function () {\r
+
+      \    pm.response.to.have.status(400);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"返回预期错误说明\", function () {\r
+
+      \    const data = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(data.error).to.be.a(\"string\");\r
+
+      \    pm.expect(data.error).to.eql(\"Missing field: firstname\");\r
+
+      });"
+    language: text/javascript
+order: 932

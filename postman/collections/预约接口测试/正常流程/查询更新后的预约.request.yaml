@@ -1,0 +1,42 @@
+$kind: http-request
+url: "{{base_url}}/booking/{{booking_id}}"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"状态码和响应格式正确\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      \    pm.expect(pm.response.headers.get(\"Content-Type\"))\r
+
+      \        .to.include(\"application/json\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"预约数据正确\", function () {\r
+
+      \    const data = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(data.firstname).to.eql(\"Alex\");\r
+
+      \    pm.expect(data.lastname).to.eql(\"Learner\");\r
+
+      \    pm.expect(data.totalprice).to.eql(300);\r
+
+      \    pm.expect(data.depositpaid).to.eql(true);\r
+
+      \r
+
+      \    pm.expect(data.bookingdates).to.be.an(\"object\");\r
+
+      \    pm.expect(data.bookingdates.checkin).to.eql(\"2026-11-01\");\r
+
+      \    pm.expect(data.bookingdates.checkout).to.eql(\"2026-11-03\");\r
+
+      });"
+    language: text/javascript
+order: 7000
